@@ -1,0 +1,36 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>UMES Clima v3</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Consulta Meteorológica GPS</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>Aplicación para captura de ubicación por GPS y consulta del clima en tiempo real.</p>
+
+      <div class="ion-margin-top ion-margin-bottom">
+        <p><strong>Total de registros guardados:</strong> <ion-badge color="secondary">{{ totalRegistros()
+            }}</ion-badge></p>
+      </div>
+
+      <div class="ion-text-center">
+        @if (!cargando) {
+        <ion-button expand="block" (click)="consultarClima()">
+          Consultar clima
+        </ion-button>
+        } @else {
+        <ion-spinner name="crescent" color="primary"></ion-spinner>
+        <p>Obteniendo ubicación GPS y datos climáticos...</p>
+        }
+
+        <ion-button expand="block" fill="outline" (click)="irARegistros()" class="ion-margin-top">
+          Registros guardados
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

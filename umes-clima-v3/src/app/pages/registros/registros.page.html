@@ -1,0 +1,54 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Historial de Registros</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-item lines="none" class="ion-margin-bottom">
+    <ion-checkbox [(ngModel)]="guardarEnGaleria" slot="start"></ion-checkbox>
+    <ion-label>Guardar fotografías capturadas en la galería del teléfono</ion-label>
+  </ion-item>
+
+  @if (registros().length === 0) {
+    <div class="ion-text-center ion-padding">
+      <p>Primero se debe realizar una consulta desde la página principal.</p>
+    </div>
+  } @else {
+    <ion-list>
+      @for (registro of registros(); track registro.id) {
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>
+              {{ registro.temperatura }} °C
+              <ion-badge color="tertiary" class="ion-float-end">
+                {{ registro.fecha }}
+              </ion-badge>
+            </ion-card-title>
+          </ion-card-header>
+          
+          <ion-card-content>
+            <p><strong>Ubicación GPS:</strong> {{ registro.latitud.toFixed(4) }}, {{ registro.longitud.toFixed(4) }}</p>
+            <p><strong>Sensación térmica:</strong> {{ registro.sensacionTermica }} °C</p>
+            <p><strong>Humedad:</strong> {{ registro.humedad }}%</p>
+            <p><strong>Viento:</strong> {{ registro.velocidadViento }} km/h</p>
+
+            @if (registro.foto) {
+              <div class="ion-margin-top ion-text-center">
+                <img [src]="registro.foto" alt="Vista previa" style="max-height: 150px; border-radius: 8px; object-fit: cover;" />
+              </div>
+            }
+
+            <ion-button expand="block" size="small" fill="outline" class="ion-margin-top" (click)="tomarFotografia(registro.id)">
+              <ion-icon name="camera-outline" slot="start"></ion-icon>
+              {{ registro.foto ? 'Reemplazar fotografía' : 'Agregar fotografía' }}
+            </ion-button>
+          </ion-card-content>
+        </ion-card>
+      }
+    </ion-list>
+  }
+</ion-content>
